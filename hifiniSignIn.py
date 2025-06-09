@@ -52,8 +52,7 @@ class HifiniClient:
         self.notifications.append(msg)
         # with open(LOG_FILE, "a", encoding="utf-8") as f:
         #     f.write(msg + "\n")
-        if DEBUG:
-            print(msg)
+        print(msg)
 
     def convert_to_bytes(self, file: Union[str, bytes]) -> bytes:
         if isinstance(file, bytes):
