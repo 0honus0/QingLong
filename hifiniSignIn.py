@@ -1,4 +1,5 @@
 import os
+import random
 import re
 import time
 import json
@@ -331,16 +332,24 @@ def main():
     # HIFINI_COOKIES 
     # HIFINI_USER
     # HIFINI_PASS
+    # HIFINI_RANDOM  1024
 
     # QL_CLIENT_ID
     # QL_CLIENT_SECRET
     # TG_BOT_TOKEN
     # TG_USER_ID
 
+    hifini_random = os.getenv("HIFINI_RANDOM", 1024)
+    sleepTime = random.randint(0, int(hifini_random))
+    print(f"休眠 {sleepTime}")
+    time.sleep(sleepTime)
+
     if os.path.exists(LOG_FILE):
         os.remove(LOG_FILE)
 
     client = HifiniClient()
+
+    client._log("开始签到...")
     cookies = os.getenv("HIFINI_COOKIES")
 
     if not client.check_cookies(cookies):
