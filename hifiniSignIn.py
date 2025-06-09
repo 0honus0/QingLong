@@ -218,6 +218,23 @@ class HifiniClient:
             time.sleep(5)
         return None
 
+    def sendNtf(self):
+        TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
+        TG_USER_ID =  os.getenv("TG_USER_ID")
+
+        if TG_USER_ID == None:
+            print("未设置 TG_USER_ID")
+        
+        if TG_BOT_TOKEN == None:
+            print("未设置 TG_BOT_TOKEN")
+
+        url=f'https://api.telegram.org/bot{TG_BOT_TOKEN}/sendMessage'
+        data={
+            'chat_id' : TG_USER_ID,
+            'text' : self.notifications,
+        }
+        requests.post(url=url,data=data)
+
     def updateQingLongCookies(self, cookies):
         def save_cookie_to_qinglong(var_name, cookie_value):
             """将Cookie保存到青龙面板环境变量"""
@@ -341,6 +358,7 @@ def main():
         return
 
     client.sign_in(sign, cookies)
+    client.sendNtf()
     # print("\n日志已写入", LOG_FILE)
 
 
