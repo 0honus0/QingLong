@@ -22,7 +22,7 @@ URLS = {
 }
 
 class HeaderManager:
-    """统一管理请求头，支持 cookie、referer、content-type 动态组合。"""
+    """统一管理请求头,支持 cookie、referer、content-type 动态组合。"""
     DEFAULT_HEADERS = {
         "accept": "*/*",
         "accept-language": "zh-CN,zh;q=0.9",
@@ -75,7 +75,7 @@ class HifiniClient:
         resp = self.session.get(url)
         if resp.status_code == 200:
             return resp.cookies.get("bbs_sid")
-        self._log(f"获取初始cookies失败，状态码: {resp.status_code}")
+        self._log(f"获取初始cookies失败,状态码: {resp.status_code}")
         return None
 
     def get_captcha(self, cookies: str) -> Optional[Dict[str, Any]]:
@@ -124,7 +124,7 @@ class HifiniClient:
         }
         resp = self.session.post(BASE_URL + URLS["login"], headers=headers, data=data)
         if resp.status_code != 200:
-            self._log(f"登录请求失败，状态码: {resp.status_code}")
+            self._log(f"登录请求失败,状态码: {resp.status_code}")
             return None
 
         bbs_token = resp.cookies.get("bbs_token")
@@ -138,14 +138,14 @@ class HifiniClient:
         headers = HeaderManager.build(cookie=cookies, referer=f"{BASE_URL}{URLS['sign_page']}")
         resp = self.session.get(BASE_URL + URLS["sign_page"], headers=headers)
         if resp.status_code != 200:
-            self._log(f"获取签到页面失败，状态码: {resp.status_code}")
+            self._log(f"获取签到页面失败,状态码: {resp.status_code}")
             return None
 
         match = re.search(r'var sign = "([\da-f]+)"', resp.text)
         if match:
             return match.group(1)
         if '登录后查看' in resp.text:
-            self._log("Cookie失效，请重新登录")
+            self._log("Cookie失效,请重新登录")
         else:
             self._log("未找到签到签名sign")
         return None
@@ -164,17 +164,17 @@ class HifiniClient:
                 resp = self.session.post(url, headers=headers, data=data, timeout=15, verify=False)
                 text = resp.text.strip()
                 if "今天已经签过啦！" in text:
-                    msg = '已经签到过了，不再重复签到!'
+                    msg = '已经签到过了,不再重复签到!'
                     break
                 elif "成功" in text:
                     json_resp = json.loads(text)
                     msg = json_resp.get('message', '签到成功')
                     break
                 elif "请登录后再签到!" in text:
-                    msg = "Cookie未正确设置，请检查"
+                    msg = "Cookie未正确设置,请检查"
                     break
-                elif "操作存在风险，请稍后重试" in text:
-                    msg = "操作风险提示，稍后重试"
+                elif "操作存在风险,请稍后重试" in text:
+                    msg = "操作风险提示,稍后重试"
                 else:
                     msg = f"未知异常: {text}"
                 time.sleep(15)
@@ -191,7 +191,7 @@ class HifiniClient:
         headers = HeaderManager.build(cookie=cookies)
         resp = self.session.get(BASE_URL, headers=headers)
         if resp.status_code != 200:
-            self._log("访问首页失败，检查网络")
+            self._log("访问首页失败,检查网络")
             return False
         if "nav-item username" in resp.text:
             self._log("cookies有效")
@@ -246,7 +246,7 @@ class HifiniClient:
             client_secret = os.environ.get("QL_CLIENT_SECRET")
 
             if not all([ql_url, client_id, client_secret]):
-                print("未设置青龙面板API配置，无法保存Cookie")
+                print("未设置青龙面板API配置,无法保存Cookie")
                 return False
 
             # 获取青龙API令牌
@@ -347,13 +347,13 @@ def main():
     if not client.check_cookies(cookies):
         cookies = client.update_cookies()
         if not cookies:
-            client._log("获取cookies失败，退出")
+            client._log("获取cookies失败,退出")
             return
         client.updateQingLongCookies(cookies)
 
     sign = client.get_sign_value(cookies)
     if not sign:
-        client._log("未获取到签到签名，签到失败")
+        client._log("未获取到签到签名,签到失败")
         return
 
     client.sign_in(sign, cookies)
