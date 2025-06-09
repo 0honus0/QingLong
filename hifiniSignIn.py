@@ -231,7 +231,7 @@ class HifiniClient:
         url=f'https://api.telegram.org/bot{TG_BOT_TOKEN}/sendMessage'
         data={
             'chat_id' : TG_USER_ID,
-            'text' : self.notifications,
+            'text' : "\n".join(self.notifications),
         }
         requests.post(url=url,data=data)
 
