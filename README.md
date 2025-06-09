@@ -1,6 +1,8 @@
 # hifiniSignIn
 https://www.hifini.com 自动签到
 
+基于 whyour/qinglong:debian docker image
+
 ```
 HIFINI_COOKIES      Cookies 
 HIFINI_USER         用户
