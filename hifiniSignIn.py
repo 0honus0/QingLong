@@ -349,8 +349,7 @@ def main():
         if not cookies:
             client._log("获取cookies失败，退出")
             return
-
-    client.updateQingLongCookies(cookies)
+        client.updateQingLongCookies(cookies)
 
     sign = client.get_sign_value(cookies)
     if not sign:
