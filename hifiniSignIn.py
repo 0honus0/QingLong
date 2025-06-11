@@ -9,8 +9,22 @@ import requests
 from typing import Optional, Dict, Any, Union
 from ddddocr import DdddOcr
 
+# https://www.hifini.com 自动签到
+#
+# 基于 whyour/qinglong:debian docker image
+
+# HIFINI_COOKIES      Cookies 
+# HIFINI_USER         用户
+# HIFINI_PASS         密码
+
+# QL_URL              QL服务端 Url
+# QL_CLIENT_ID        QL服务端 ClientId
+# QL_CLIENT_SECRET    QL服务端 ClientSecrte
+
+# TG_BOT_TOKEN        TG_Bot_Token
+# TG_USER_ID          TG_User_Id
+
 DEBUG = False
-LOG_FILE = "log.txt"
 
 BASE_URL = "https://www.hifini.com"
 
@@ -51,8 +65,6 @@ class HifiniClient:
 
     def _log(self, msg: str):
         self.notifications.append(msg)
-        # with open(LOG_FILE, "a", encoding="utf-8") as f:
-        #     f.write(msg + "\n")
         print(msg)
 
     def convert_to_bytes(self, file: Union[str, bytes]) -> bytes:
@@ -344,9 +356,6 @@ def main():
     print(f"休眠 {sleepTime}")
     time.sleep(sleepTime)
 
-    if os.path.exists(LOG_FILE):
-        os.remove(LOG_FILE)
-
     client = HifiniClient()
 
     client._log("开始签到...")
@@ -366,8 +375,6 @@ def main():
 
     client.sign_in(sign, cookies)
     client.sendNtf()
-    # print("\n日志已写入", LOG_FILE)
-
 
 
 if __name__ == "__main__":
