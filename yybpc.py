@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+import notify
 
 # 从环境变量中获取 Qm-User-Token
 qm_user_token = os.getenv('QM_USER_TOKEN')
@@ -39,4 +40,7 @@ payload = {
 response = requests.post(url, headers=headers, json=payload)
 
 # 打印响应内容
-print(response.json())
+res = response.json()
+print(res)
+
+notify.send("yybpc签到", str(res), False)
