@@ -26,14 +26,14 @@ headers = {
 
 # 请求数据
 payload = {
-    "activityId": "1135506567338000384",
+    "activityId": "1146457634812837889",
     "storeId": "216652",
     "appid": "wx3423ef0c7b7f19af",
     "timestamp": int(round(time.time() * 1000)), 
-    "signature": "3E8C30A07C0172ABFBF3FA6735A66F7B",
+    "signature": "EBA56881738B83395EA62AE498901308",
     "v": 1,
-    "data": "EoBWjzJdID9ARy7wq8EK3zFsMoK9ASTWQRKKDeP5px8UHZ/Ie4CAKnoMkKphfTpjOWkGf2DUHMKPR+zwpkQz1St8qE5svpdcD7PCCY7D3Epzs0xrn9PE/3E5uK02pfvUMFpOQPMtO/peY+layBUjsIcIVSLy/fHG2gXJgB5aREy/FSaVOZd9Xrl3S29TuN3J0SMgBp6YTnupZtlOYervPFpVivYGcVmIoZkiPUdm9D8=",
-    "version": 1
+    "data": "U7sVjNKDNVxOcmf6Z7gsPOGHiin/A5Zf5n0Z2xVrXyz6mG2mdZAMdlxiVFb6FwSyh5ehvdqw+bNlnwhcDISSwLGnot5ADP2Ev7TBafW3QfRFGY6acZzM/rXztymh5qvFuMtNC+xfYiUcgaaf4ouDhNU21VdyL+XfL6A8d/mkX+T3smi6woEgqMJdLVxBKYGaMeXOSysfXtw4jEmuwD7W9+vY1SoTeiT51rGlDOZbQQQ=",
+    "version": 2
 }
 
 # 发送 POST 请求
