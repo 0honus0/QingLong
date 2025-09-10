@@ -105,7 +105,9 @@ while retry > 0:
 
     try:
         if result["state"] == "success":
-            res = f"签到成功, 连续签到{result["signindays"]}天, 签到获取魔力{result["integral"]}"
+            signindays = result["signindays"]
+            integral = result["integral"]
+            res = f"签到成功, 连续签到{signindays}天, 签到获取魔力{integral}"
             break
         elif result["state"] == "false":
             res = "可能已经签到成功"

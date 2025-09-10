@@ -68,7 +68,14 @@ def hdsky():
         # os.remove("image.png")
 
         # Step 3: 调用识别平台
-        captcha_text = recognize_captcha(image_response.content, tt_userid, tt_apikey)
+        if 1:
+            captcha_text = recognize_captcha(image_response.content, tt_userid, tt_apikey)
+        else:
+            with open("./image.png", "wb+") as f:
+                f.write(image_response.content)
+            captcha_text = input("请输入验证码: ")
+            os.remove("./image.png")
+
         print(f"[识别结果] {captcha_text}")
 
         # Step 4: 提交签到表单
