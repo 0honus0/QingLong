@@ -107,9 +107,9 @@ while retry > 0:
         "x-requested-with": "XMLHttpRequest",
     }, data=data)
 
-    result = signin_resp.json()
-
     try:
+        result = signin_resp.json()
+
         if result["state"] == "success":
             signindays = result["signindays"]
             integral = result["integral"]
