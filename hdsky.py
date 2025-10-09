@@ -31,7 +31,7 @@ def recognize_captcha(image_bytes, userid, apikey, proxies={}):
 
 # 🔁 主流程
 def hdsky():
-    retry = 3
+    retry = 5
     success = False
 
     # 创建 Session 管理整个流程
@@ -68,12 +68,20 @@ def hdsky():
         # os.remove("image.png")
 
         # Step 3: 调用识别平台
-        if 1:
+        switch : int = 0
+
+        captcha_text = None
+
+        if switch == 1:
             captcha_text = recognize_captcha(image_response.content, tt_userid, tt_apikey)
         else:
             with open("./image.png", "wb+") as f:
                 f.write(image_response.content)
-            captcha_text = input("请输入验证码: ")
+
+            import ddddocr
+            ocr = ddddocr.DdddOcr(show_ad=False)
+            image = open("./image.png", "rb").read()
+            captcha_text = ocr.classification(image)
             os.remove("./image.png")
 
         print(f"[识别结果] {captcha_text}")
