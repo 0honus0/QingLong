@@ -26,7 +26,7 @@ base_headers = {
 
 res = ""
 
-retry = 3
+retry = 10
 
 while retry > 0:
     retry -= 1
@@ -85,7 +85,13 @@ while retry > 0:
             if chunk:
                 f.write(chunk)
 
-    imagestring = input("input the imagestring: ")
+    import ddddocr
+    ocr = ddddocr.DdddOcr(show_ad=False)
+    image = open(filename, "rb").read()
+    imagestring = ocr.classification(image)
+    os.remove(filename)
+
+    # imagestring = input("input the imagestring: ")
 
     signin_url = urljoin(BASE, "plugin_sign-in.php?cmd=signin")
     data = {
