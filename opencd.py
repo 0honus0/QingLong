@@ -1,6 +1,7 @@
 import os
 import re
 import requests
+import notify
 from urllib.parse import urljoin, urlparse, parse_qs
 
 BASE = "https://open.cd/"
@@ -130,3 +131,5 @@ while retry > 0:
     print(res)
 
 print(res)
+
+notify.send("opencd 签到", res)
