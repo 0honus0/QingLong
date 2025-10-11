@@ -121,11 +121,12 @@ while retry > 0:
             break
         elif result["state"] == "false":
             res = "可能已经签到成功"
-            break
+            retry -= 1
         else:
             res = f"签到失败, 原因{signin_resp.text}"
     except Exception as e:
         print(e)
+        retry -= 1
         res = "原因解析错误 请查看日志"
 
     print(res)
