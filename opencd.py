@@ -108,6 +108,9 @@ while retry > 0:
     }, data=data)
 
     try:
+
+        print(signin_resp.json())
+
         result = signin_resp.json()
 
         if result["state"] == "success":
