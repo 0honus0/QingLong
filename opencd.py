@@ -27,7 +27,7 @@ base_headers = {
 
 res = ""
 
-retry = 10
+retry = 15
 
 while retry > 0:
     retry -= 1

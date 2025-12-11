@@ -26,13 +26,13 @@ headers = {
 
 # 请求数据
 payload = {
-    "activityId": "1146457634812837889",
+    "activityId": "1201607560894652417",
     "storeId": "216652",
     "appid": "wx3423ef0c7b7f19af",
     "timestamp": int(round(time.time() * 1000)), 
-    "signature": "EBA56881738B83395EA62AE498901308",
+    "signature": "446B948CE7338886CEE1874F86835ED3",
     "v": 1,
-    "data": "oT452bTFmAvTUPLsjwWSjSRlsMHFFeWUQLThZtTrbizt7+5X/rlDnUV2AMX5CQFyotombBTUtaWQ/bR370tkDy+MIj5n9KbRMQbpRt/unUsDUygQLR8nZrag8yGK21lyfsLL6SIpmQYb9figVOOGIiwqSsyAF/7XTb/UjRqT15lpBN9HPiUpv6fgIiscNwPKJ+9lwlKBsBrkzsfekf960liEXa69Z9WxA0VF018I9xk",
+    "data": "oT452bTFmAvTUPLsjwWSjSRlsMHFFeWUQLThZtTrbizt7+5X/rlDnUV2AMX5CQFyotombBTUtaWQ/bR370tkDy+MIj5n9KbRMQbpRt/unUsDUygQLR8nZrag8yGK21lyfsLL6SIpmQYb9figVOOGIiwqSsyAF/7XTb/UjRqT15lpBN9HPiUpv6fgIiscNwPKJ+9lwlKBsBrkzsfekf960liEXa69Z9WxA0VF018I9xk=",
     "version": 2
 }
 
