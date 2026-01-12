@@ -1,46 +1,80 @@
 import os
-import time
+import shlex
+import json
 import requests
 import notify
 
-# 从环境变量中获取 Qm-User-Token
-qm_user_token = os.getenv('QM_USER_TOKEN')
-if not qm_user_token:
-    raise ValueError("环境变量 QM_USER_TOKEN 未设置")
+curl_cmd = os.getenv("CURL_YYBPC")
+if not curl_cmd:
+    raise RuntimeError("环境变量 CURL_YYBPC 未设置")
 
-# 请求 URL
-url = "https://webapi.qmai.cn/web/cmk-center/sign/takePartInSign"
+# 拆分 curl 参数
+parts = shlex.split(curl_cmd)
 
-# 请求头
-headers = {
-    "Accept": "v=1.0",
-    "content-type": "application/json",
-    "Qm-From": "wechat",
-    "Qm-From-Type": "catering",
-    "store-id": "216652",
-    "Qm-User-Token": qm_user_token,
-    "Accept-Encoding": "gzip,compress,br,deflate",
-    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.59(0x18003b2e) NetType/4G Language/zh_CN",
-    "Referer": "https://servicewechat.com/wx3423ef0c7b7f19af/72/page-frame.html"
-}
+url = None
+headers = {}
+data = None
 
-# 请求数据
-payload = {
-    "activityId": "1201607560894652417",
-    "storeId": "216652",
-    "appid": "wx3423ef0c7b7f19af",
-    "timestamp": int(round(time.time() * 1000)), 
-    "signature": "446B948CE7338886CEE1874F86835ED3",
-    "v": 1,
-    "data": "oT452bTFmAvTUPLsjwWSjSRlsMHFFeWUQLThZtTrbizt7+5X/rlDnUV2AMX5CQFyotombBTUtaWQ/bR370tkDy+MIj5n9KbRMQbpRt/unUsDUygQLR8nZrag8yGK21lyfsLL6SIpmQYb9figVOOGIiwqSsyAF/7XTb/UjRqT15lpBN9HPiUpv6fgIiscNwPKJ+9lwlKBsBrkzsfekf960liEXa69Z9WxA0VF018I9xk=",
-    "version": 2
-}
+i = 0
+while i < len(parts):
+    part = parts[i]
 
-# 发送 POST 请求
-response = requests.post(url, headers=headers, json=payload)
+    # URL
+    if part.startswith("http"):
+        url = part
 
-# 打印响应内容
-res = response.json()
-print(res)
+    # Header
+    elif part in ("-H", "--header"):
+        key, value = parts[i + 1].split(":", 1)
+        headers[key.strip()] = value.strip()
+        i += 1
 
-notify.send("yybpc签到", str(res), False)
+    # Data
+    elif part in ("--data", "--data-raw", "--data-binary"):
+        data = parts[i + 1]
+        i += 1
+
+    i += 1
+
+if not url:
+    raise RuntimeError("未能从 curl 中解析出 URL")
+
+# Content-Length 交给 requests 计算，避免问题
+headers.pop("Content-Length", None)
+
+# JSON body
+json_data = None
+if data:
+    try:
+        json_data = json.loads(data)
+    except json.JSONDecodeError:
+        json_data = None
+
+try:
+    resp = requests.post(
+        url,
+        headers=headers,
+        json=json_data if json_data else None,
+        data=None if json_data else data,
+        timeout=15
+    )
+
+    result_text = resp.text
+    print("Status:", resp.status_code)
+    print("Response:", result_text)
+
+    # ✅ 成功 / 失败统一通知
+    notify.send(
+        "yybpc 签到结果",
+        f"HTTP {resp.status_code}\n{result_text}",
+        False
+    )
+
+except Exception as e:
+    # ❌ 异常通知
+    notify.send(
+        "yybpc 签到异常",
+        str(e),
+        True
+    )
+    raise
