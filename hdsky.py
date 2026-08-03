@@ -31,7 +31,7 @@ def recognize_captcha(image_bytes, userid, apikey, proxies={}):
 
 # 🔁 主流程
 def hdsky():
-    retry = 5
+    retry = 10
     success = False
 
     # 创建 Session 管理整个流程
